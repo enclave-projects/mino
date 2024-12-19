@@ -23,8 +23,8 @@ Mino is a secure password manager application developed by Enclave Projects. It 
 
 1. Clone the repository:
 ```bash
-git clone [<repository-url>](https://github.com/enclave-projects/mino.git)
-cd mino-password-manager
+git clone https://github.com/enclave-projects/mino.git
+cd mino
 ```
 
 2. Create a virtual environment:
@@ -130,7 +130,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Support
 
-For support, please contact support@enclave-projects.com
+For support, don't hesitate to get in touch with pranjal.ai.arena@hotmail.com
 
 ## Credits
 
