@@ -1,0 +1,180 @@
+{% extends "mino/base.html" %}
+
+{% block title %}Login - Mino Password Manager{% endblock %}
+
+{% block content %}
+<div class="flex min-h-[calc(100vh-12rem)] items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Welcome Back</h1>
+            <p class="text-gray-600 mt-2">Sign in to your Mino account</p>
+        </div>
+
+        <form method="POST" class="space-y-6">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                <input type="email" id="email" name="email" required
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <div class="relative">
+                    <input type="password" id="password" name="password" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                    <button type="button" id="togglePassword" 
+                        class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember_me" name="remember_me"
+                        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                    <label for="remember_me" class="ml-2 block text-sm text-gray-700">
+                        Remember me
+                    </label>
+                </div>
+
+                <div class="text-sm">
+                    <button type="button" onclick="showResetForm()" class="font-medium text-primary hover:text-secondary">
+                        Forgot password?
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Sign in
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600">
+                Don't have an account?
+                <a href="{{ url_for('auth.register') }}" class="font-medium text-primary hover:text-secondary">
+                    Create one
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Password Reset Modal -->
+<div id="resetModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center" id="requestResetForm">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Reset Password</h3>
+            <div class="mt-2 px-7 py-3">
+                <form id="passwordResetForm" action="{{ url_for('auth.request_password_reset') }}" method="POST">
+                    <input type="email" id="reset_email" name="email" placeholder="Enter your email" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                    <button type="submit"
+                        class="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Send OTP
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-3 text-center hidden" id="otpForm">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Enter OTP</h3>
+            <div class="mt-2 px-7 py-3">
+                <form id="otpVerificationForm" action="{{ url_for('auth.verify_otp') }}" method="POST">
+                    <input type="hidden" id="otp_email" name="email">
+                    <input type="text" id="otp" name="otp" placeholder="Enter OTP" required
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">
+                    <button type="submit"
+                        class="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Verify OTP
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="items-center px-4 py-3">
+            <button id="closeResetModal"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Add data attributes for JavaScript -->
+<div id="pageData" 
+    data-show-otp="{{ 'true' if show_otp_form else 'false' }}"
+    data-reset-email="{{ session.get('reset_email', '') }}"
+    class="hidden">
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // DOM Elements
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const resetModal = document.getElementById('resetModal');
+    const requestResetForm = document.getElementById('requestResetForm');
+    const otpForm = document.getElementById('otpForm');
+    const closeResetModal = document.getElementById('closeResetModal');
+    const passwordResetForm = document.getElementById('passwordResetForm');
+    const otpVerificationForm = document.getElementById('otpVerificationForm');
+    const pageData = document.getElementById('pageData');
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        // Toggle eye icon
+        const eyeIcon = this.querySelector('i');
+        eyeIcon.classList.toggle('fa-eye');
+        eyeIcon.classList.toggle('fa-eye-slash');
+    });
+
+    // Show reset form
+    function showResetForm() {
+        resetModal.classList.remove('hidden');
+        requestResetForm.classList.remove('hidden');
+        otpForm.classList.add('hidden');
+    }
+
+    // Initialize page with proper form state
+    document.addEventListener('DOMContentLoaded', function() {
+        const showOtp = pageData.dataset.showOtp === 'true';
+        const resetEmail = pageData.dataset.resetEmail;
+
+        if (showOtp) {
+            resetModal.classList.remove('hidden');
+            requestResetForm.classList.add('hidden');
+            otpForm.classList.remove('hidden');
+            document.getElementById('otp_email').value = resetEmail;
+        }
+    });
+
+    // Close modal
+    closeResetModal.onclick = function() {
+        resetModal.classList.add('hidden');
+    }
+
+    // Handle password reset form submission
+    passwordResetForm.onsubmit = function(e) {
+        e.preventDefault();
+        const email = document.getElementById('reset_email').value;
+        document.getElementById('otp_email').value = email;
+        this.submit();
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target == resetModal) {
+            resetModal.classList.add('hidden');
+        }
+    }
+</script>
+{% endblock %}

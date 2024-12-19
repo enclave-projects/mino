@@ -1,0 +1,30 @@
+{% extends "email/base_email.html" %}
+
+{% block content %}
+<h2>Welcome to Mino Password Manager!</h2>
+<p>Hello {{ name }},</p>
+<p>Thank you for joining Mino Password Manager! We're excited to help you keep your passwords secure and organized.</p>
+<h3>Getting Started</h3>
+<ul style="list-style-type: none; padding: 0;">
+    <li style="margin: 10px 0;">
+        <span style="color: #007bff;">✓</span> Store passwords securely
+    </li>
+    <li style="margin: 10px 0;">
+        <span style="color: #007bff;">✓</span> Access your passwords from anywhere
+    </li>
+    <li style="margin: 10px 0;">
+        <span style="color: #007bff;">✓</span> Generate strong passwords
+    </li>
+</ul>
+<div style="text-align: center;">
+    <a href="{{ dashboard_link }}" class="button" style="color: #ffffff;">Go to Dashboard</a>
+</div>
+<p>For enhanced security, we recommend:</p>
+<ul>
+    <li>Enabling two-factor authentication</li>
+    <li>Using a strong master password</li>
+    <li>Regularly updating your passwords</li>
+</ul>
+<p>If you have any questions, our support team is here to help!</p>
+<p>Best regards,<br>The Mino Team</p>
+{% endblock %}

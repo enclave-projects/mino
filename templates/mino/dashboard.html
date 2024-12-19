@@ -1,0 +1,166 @@
+{% extends "mino/base.html" %}
+
+{% block title %}Dashboard - Mino Password Manager{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-900">Password Manager</h1>
+        <a href="{{ url_for('mino.add_password') }}"
+            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            <i class="fas fa-plus mr-2"></i>
+            Add Password
+        </a>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="relative">
+        <input type="text" id="search" placeholder="Search passwords..."
+            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-search text-gray-400"></i>
+        </div>
+    </div>
+
+    <!-- Password List -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <ul class="divide-y divide-gray-200" id="password-list">
+            {% if passwords %}
+                {% for password in passwords %}
+                <li class="password-item">
+                    <div class="px-4 py-4 sm:px-6 flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-key text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-900">{{ password.service_name }}</h3>
+                                <p class="text-sm text-gray-500">{{ password.username }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+            <button type="button" 
+                data-password-id="{{ password._id }}"
+                data-view-url="{{ url_for('mino.view_password', password_id=password._id) }}"
+                onclick="viewPassword(this.dataset.passwordId, this.dataset.viewUrl)"
+                class="text-gray-400 hover:text-primary">
+                <i class="fas fa-eye"></i>
+            </button>
+                            <a href="{{ url_for('mino.edit_password', password_id=password._id) }}" class="text-gray-400 hover:text-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('mino.delete_password', password_id=password._id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete this password?')">
+                                <button type="submit" class="text-gray-400 hover:text-red-600">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li class="px-4 py-8 text-center text-gray-500">
+                    <i class="fas fa-lock text-4xl mb-4"></i>
+                    <p>No passwords saved yet.</p>
+                    <p class="mt-2">Click the "Add Password" button to get started!</p>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<!-- Password View Modal -->
+<div id="password-modal" class="fixed inset-0 bg-gray-500 bg-opacity-75 hidden flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Password</h3>
+            <button onclick="closePasswordModal()" class="text-gray-400 hover:text-gray-500">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="relative">
+            <input type="text" id="password-display" readonly
+                class="block w-full pr-10 py-2 border border-gray-300 rounded-md">
+            <button onclick="copyPassword()" class="absolute inset-y-0 right-0 px-3 flex items-center">
+                <i class="fas fa-copy text-gray-400 hover:text-primary"></i>
+            </button>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">Click the copy icon to copy to clipboard</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Search functionality
+    const searchInput = document.getElementById('search');
+    const passwordList = document.getElementById('password-list');
+    const passwordItems = document.querySelectorAll('.password-item');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        
+        passwordItems.forEach(item => {
+            const serviceName = item.querySelector('h3').textContent.toLowerCase();
+            const username = item.querySelector('p').textContent.toLowerCase();
+            
+            if (serviceName.includes(searchTerm) || username.includes(searchTerm)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
+    // Password viewing functionality
+    async function viewPassword(passwordId, url) {
+        if (!url) {
+            console.error('No URL provided for fetching password');
+            return;
+        }
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.password) {
+                document.getElementById('password-display').value = data.password;
+                document.getElementById('password-modal').classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Error fetching password:', error);
+            alert('Failed to fetch password');
+        }
+    }
+
+    function closePasswordModal() {
+        document.getElementById('password-modal').classList.add('hidden');
+        document.getElementById('password-display').value = '';
+    }
+
+    async function copyPassword() {
+        const passwordDisplay = document.getElementById('password-display');
+        try {
+            await navigator.clipboard.writeText(passwordDisplay.value);
+            alert('Password copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy password:', err);
+            alert('Failed to copy password');
+        }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('password-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePasswordModal();
+        }
+    });
+
+    // Close modal on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closePasswordModal();
+        }
+    });
+</script>
+{% endblock %}

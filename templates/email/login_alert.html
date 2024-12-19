@@ -1,0 +1,23 @@
+{% extends "email/base_email.html" %}
+
+{% block content %}
+<h2>New Login Detected</h2>
+<p>Hello,</p>
+<p>We detected a new login to your Mino Password Manager account.</p>
+<div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p style="margin: 5px 0;"><strong>Time:</strong> {{ login_time }}</p>
+    <p style="margin: 5px 0;"><strong>IP Address:</strong> {{ ip_address }}</p>
+    <p style="margin: 5px 0;"><strong>Device:</strong> {{ device }}</p>
+    <p style="margin: 5px 0;"><strong>Location:</strong> {{ location }}</p>
+</div>
+<p>If this was you, you can ignore this email. If you don't recognize this activity, please:</p>
+<ol>
+    <li>Change your password immediately</li>
+    <li>Enable two-factor authentication if not already enabled</li>
+    <li>Contact our support team</li>
+</ol>
+<div style="text-align: center;">
+    <a href="{{ account_security_link }}" class="button" style="color: #ffffff;">Review Account Security</a>
+</div>
+<p>Best regards,<br>The Mino Team</p>
+{% endblock %}

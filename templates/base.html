@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mino - Encryption Plus{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            
+            if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // Handle mobile menu links
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.mobile-menu').classList.add('hidden');
+            });
+        });
+    </script>
+</head>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ url_for('home') }}" class="text-2xl font-bold text-primary hover:text-secondary transition duration-300">Mino</a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{{ url_for('home') }}#features" class="text-gray-700 hover:text-primary">Features</a>
+                    <a href="{{ url_for('home') }}#about" class="text-gray-700 hover:text-primary">About</a>
+                    <a href="{{ url_for('home') }}#how-it-works" class="text-gray-700 hover:text-primary">How It Works</a>
+                    <a href="{{ url_for('home') }}#testimonials" class="text-gray-700 hover:text-primary">Testimonials</a>
+                    <a href="{{ url_for('contact') }}" class="text-gray-700 hover:text-primary">Contact</a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button type="button" class="mobile-menu-button text-gray-700 hover:text-primary focus:outline-none" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div class="mobile-menu hidden md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="{{ url_for('home') }}#features" class="block px-3 py-2 text-gray-700 hover:text-primary">Features</a>
+                    <a href="{{ url_for('home') }}#about" class="block px-3 py-2 text-gray-700 hover:text-primary">About</a>
+                    <a href="{{ url_for('home') }}#how-it-works" class="block px-3 py-2 text-gray-700 hover:text-primary">How It Works</a>
+                    <a href="{{ url_for('home') }}#testimonials" class="block px-3 py-2 text-gray-700 hover:text-primary">Testimonials</a>
+                    <a href="{{ url_for('contact') }}" class="block px-3 py-2 text-gray-700 hover:text-primary">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Mino - Encryption Plus</h3>
+                    <p class="text-gray-400">A product of Enclave Projects</p>
+                    <p class="text-gray-400 mt-2">Secure your data with confidence.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('privacy_policy') }}" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="{{ url_for('terms_of_service') }}" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        <li><a href="{{ url_for('contact') }}" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+                <p class="text-gray-400">&copy; 2024 Enclave Projects. All rights reserved. Mino - Encryption Plus is a trademark of Enclave Projects.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

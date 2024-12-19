@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="pt-24 pb-20 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Secure Your Data with Mino - Encryption Plus</h1>
+            <p class="text-xl md:text-2xl mb-8 text-blue-100">Advanced encryption tools to protect your sensitive information.</p>
+            <div class="space-x-4">
+                <a href="{{ url_for('auth.register') }}" class="bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-lg transition duration-300">
+                    Get Started
+                </a>
+                <a href="#features" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-900 text-white font-bold py-3 px-8 rounded-lg transition duration-300">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Key Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lock text-2xl text-primary"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">End-to-end Encryption</h3>
+                <p class="text-gray-600">Your data remains encrypted from start to finish, ensuring maximum security.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-shield text-2xl text-primary"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">User-friendly Interface</h3>
+                <p class="text-gray-600">Simple and intuitive design makes encryption accessible to everyone.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-desktop text-2xl text-primary"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Multi-platform Support</h3>
+                <p class="text-gray-600">Access your encrypted data from any device, anywhere.</p>
+            </div>
+            <!-- Feature 4 -->
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-bolt text-2xl text-primary"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">High-speed Encryption</h3>
+                <p class="text-gray-600">Lightning-fast algorithms ensure quick and secure encryption.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">About Mino</h2>
+                <p class="text-gray-600 text-lg mb-6">
+                    Mino - Encryption Plus is a cutting-edge encryption application developed by Enclave Projects. 
+                    As part of the Enclave Projects suite of security solutions, Mino brings enterprise-grade 
+                    encryption technology to everyone, making data protection simple and accessible.
+                </p>
+                <p class="text-gray-600 text-lg">
+                    Powered by Enclave Projects' expertise in cybersecurity, Mino combines state-of-the-art 
+                    encryption algorithms with an intuitive interface, ensuring your data remains secure without 
+                    compromising on user experience.
+                </p>
+            </div>
+            <div class="flex justify-center">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b" alt="Security Illustration" 
+                    class="rounded-lg shadow-xl max-w-full h-auto">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Step 1 -->
+            <div class="text-center">
+                <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-upload text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4">1. Upload Your Files</h3>
+                <p class="text-gray-600">Simply drag and drop your files into our secure platform.</p>
+            </div>
+            <!-- Step 2 -->
+            <div class="text-center">
+                <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-key text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4">2. Encrypt with One Click</h3>
+                <p class="text-gray-600">Select your encryption preferences and secure your data instantly.</p>
+            </div>
+            <!-- Step 3 -->
+            <div class="text-center">
+                <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-share-alt text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4">3. Share Securely</h3>
+                <p class="text-gray-600">Share encrypted files with confidence using secure links.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">What Our Users Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Sarah Johnson</h4>
+                        <p class="text-gray-600">Tech Lead</p>
+                    </div>
+                </div>
+                <p class="text-gray-600">"Mino has transformed how we handle sensitive data. The interface is intuitive, and the encryption is rock-solid."</p>
+            </div>
+            <!-- Testimonial 2 -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Mark Thompson</h4>
+                        <p class="text-gray-600">Security Analyst</p>
+                    </div>
+                </div>
+                <p class="text-gray-600">"The speed and reliability of Mino's encryption algorithms are impressive. It's our go-to solution for data security."</p>
+            </div>
+            <!-- Testimonial 3 -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold">Emily Chen</h4>
+                        <p class="text-gray-600">Product Manager</p>
+                    </div>
+                </div>
+                <p class="text-gray-600">"The multi-platform support makes it easy for our team to collaborate securely across different devices."</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
