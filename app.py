@@ -77,5 +77,5 @@ def format_date(value):
         return value.strftime('%B %d, %Y')
     return value
 
-#if __name__ == '__main__':
-#    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
