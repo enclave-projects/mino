@@ -71,7 +71,7 @@ http://localhost:5000
 ## Project Structure
 
 ```
-mino-password-manager/
+mino/
 ├── app.py                  # Main application file
 ├── requirements.txt        # Python dependencies
 ├── init_db.py             # Database initialization script
