@@ -23,7 +23,7 @@ Mino is a secure password manager application developed by Enclave Projects. It 
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/enclave-projects/mino.git)
 cd mino-password-manager
 ```
 
