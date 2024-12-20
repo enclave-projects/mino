@@ -9,7 +9,7 @@ class EmailSender:
         self.smtp_server = "smtp.gmail.com"
         self.smtp_port = 465
         self.sender_email = "pranjal.ai.arena@gmail.com"
-        self.password = "rwsphrfezciohbgj"
+        self.password = "plloeyjdbiqeohrs"
         self.sender_name = "Mino Password Manager"
 
     def send_email(self, to_email, subject, template_name=None, body=None, **template_args):
